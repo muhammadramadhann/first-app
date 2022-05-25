@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      user: [],
+    };
+  }
+
+  getUser = async () => {
+    let response = await axios.get(
+      "https://jsonplaceholder.typicode.com/users/1"
+    );
+    this.setState({
+      user: response.data,
+    });
+  };
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  render() {
+    const user = this.state.user;
+    return (
+      <div>
+        <p>My name is {user.name}</p>
+        <p>My username is {user.username}</p>
+      </div>
+    );
+  }
 }
 
 export default App;
